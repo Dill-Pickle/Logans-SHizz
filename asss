@@ -1,0 +1,160 @@
+//John Daily
+//Final Exam
+//Monday
+//A model for an exam software system.
+
+#include <iostream>
+#include <iomanip>
+#include <string>
+#include <fstream>
+
+using namespace std;
+
+const int QUESTIONS = 10;
+const int STUDENTS = 10;
+const int SIZE = 30;
+const double POINT_VALUE = 5;
+const double TOTALSCORE = 50;
+
+
+struct StudentRecord 
+{
+  int ID;
+  char student_name[50];
+  string name;
+  char answer[10];
+  double score = 0;
+  double average = 0;
+  char letter_grade;
+};
+
+void getAnswerKey(char[]);
+void getStudentInfo(StudentRecord[]);
+void gradeTest(StudentRecord[], char[]);
+void selectionSort(StudentRecord[]);
+void displayGrades(StudentRecord[]);
+void studentsAdmitted(StudentRecord[]);
+
+int main()
+{
+	StudentRecord student[SIZE];
+    char key[QUESTIONS];
+ 
+	getAnswerKey(key);
+	getStudentInfo(student);
+	gradeTest(student, key);
+    selectionSort(student);
+    displayGrades(student);
+    //studentsAdmitted(student);
+
+	return 0;
+}
+
+void getAnswerKey(char key[])
+{
+	cout << "Enter the answer key.\n";
+	for (int i = 0; i < QUESTIONS; i++)
+	{
+		cout << "    Answer " << i + 1 << ": ";
+		cin >> key[i];
+	}
+}
+
+void getStudentInfo(StudentRecord student[])
+{
+	ifstream inFile;
+  
+    int i = 0;
+    inFile.open("student.txt");
+
+    if(!inFile)
+		  cout << "\n\n**** ERROR OPENING FILE. ******\n" << endl << endl;
+    else
+    {
+	   while (!inFile.eof())
+	   {
+			
+			inFile >> student[i].ID;
+			inFile.getline(student[i].student_name, SIZE, '\n');
+			student[i].name = student[i].student_name;
+			for (int j = 0; j < 10; j++)
+			{
+			inFile >> student[i].answer[j];
+			
+			}
+			i++;
+			if (inFile.eof())
+				break;	
+	    }
+   }
+ 
+}
+
+
+void gradeTest(StudentRecord student[], char answerKey[QUESTIONS])
+{
+	for (int i = 0; i < STUDENTS; i++)
+	{
+		for (int j = 0; j < QUESTIONS; j++)
+		{
+			if (student[i].answer[j] == answerKey[j])
+				student[i].score = student[i].score + POINT_VALUE;
+			else
+				student[i].score = student[i].score;
+		}
+		student[i].average = (student[i].score / TOTALSCORE) * 100;
+		if(student[i].average <= 100 && student[i].average >= 90)
+			student[i].letter_grade = 'A';
+		else if(student[i].average < 90 && student[i].average >= 80)
+			student[i].letter_grade = 'B';
+		else if(student[i].average < 80 && student[i].average >= 70)
+			student[i].letter_grade = 'C';
+		else if(student[i].average < 70 && student[i].average >= 60)
+			student[i].letter_grade = 'D';
+		else
+			student[i].letter_grade = 'F';
+	}
+}
+
+void selectionSort(StudentRecord student[STUDENTS])
+{
+	int i, minidx;
+	string minValue;
+
+	for (i = 0; i < (STUDENTS - 1); i++)
+	{
+		minidx = i;
+		minValue = student[i].name;
+		for (int j = i + 1; j < STUDENTS; j++)
+		{
+			if (student[j].name < minValue)
+			{
+				minValue = student[j].name;
+				minidx = j;
+			}
+		}
+		student[minidx].name = student[i].name;
+		student[i].name = minValue;
+	}
+}
+
+
+
+void displayGrades(StudentRecord student[STUDENTS])
+{
+	cout << setw(30) << "Grading Report\n\n";
+	cout << "Student ID" << setw(15) << "Student Name" << setw(16) << "Answers" << setw(12);
+	cout << "Total" << setw(8) << "Average" << setw(16) << "Letter Grade\n";
+	cout << "----------" << setw(15) << "------------" << setw(16) << "-------" << setw(12);
+	cout << "-----" << setw(8) << "-------" << setw(16) << "------------\n";
+	for (int i = 0; i < STUDENTS; i++)
+	{
+		cout << setw(8) << student[i].ID << setw(16) << student[i].name << setw(4);
+		for (int j = 0; j < QUESTIONS; j++)
+			cout << student[i].answer[j] << " ";
+		cout << setw(4) << student[i].score;
+		cout << setw(8) << student[i].average;
+		cout << setw(8) << student[i].letter_grade << endl;
+	}
+}
+
