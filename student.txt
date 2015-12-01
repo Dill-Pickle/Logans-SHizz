@@ -1,0 +1,21 @@
+666 Dunn, Bob
+ A C D C A C D B C A
+88 Hall, Bill
+ A C D A B C D B C A 
+333 Land, Chris
+ C D B C A B D B A A 
+998 Miles, Sue
+ A C D B B B D B C A 
+55 Hill, Nathan
+ A C B A B D D B C A 
+66 Rowe, Steve
+ A C D C A A D B C A 
+44 Ball, Lee
+ A B D C A C D B C A 
+22 Smith, Mary
+ A C D B A C D B C A 
+111 Jones, Paul
+ A C D C A C D B C A 
+878 Adams, Jerry
+ A C D C A B D B C A 
+
